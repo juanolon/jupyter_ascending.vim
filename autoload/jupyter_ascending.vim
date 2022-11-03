@@ -21,6 +21,11 @@ function! jupyter_ascending#sync() abort
     return
   endif
 
+  let ending = expand("%:e")
+  if match(ending, "ipynb") == 0
+      let file_name = substitute(file_name, ending, "py", "")
+  endif
+
   let command_string = printf(
         \ "%s -m jupyter_ascending.requests.sync --filename '%s'",
         \ g:jupyter_ascending_python_executable,
@@ -35,6 +40,10 @@ function! jupyter_ascending#execute() abort
 
   if match(file_name, g:jupyter_ascending_match_pattern) < 0
     return
+  endif
+  let ending = expand("%:e")
+  if match(ending, "ipynb") == 0
+      let file_name = substitute(file_name, ending, "py", "")
   endif
 
   let command_string = printf(
@@ -52,6 +61,10 @@ function! jupyter_ascending#execute_all() abort
 
   if match(file_name, g:jupyter_ascending_match_pattern) < 0
     return
+  endif
+  let ending = expand("%:e")
+  if match(ending, "ipynb") == 0
+      let file_name = substitute(file_name, ending, "py", "")
   endif
 
   let command_string = printf(
